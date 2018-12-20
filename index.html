@@ -16,7 +16,7 @@
     });
     socket.on('userSet', function (data) {
         user = data.username;
-        document.body.innerHTML = '<button type="button" onclick="joinRoom()">Join nec group</button><br>x\
+        document.body.innerHTML = '<button type="button" onclick="joinRoom()">Join nec group</button><br>\
          <input type = "text" id = "message" >\
          <button type = "button" name = "button" onclick = "sendMessage()">Send</button>\
          <div id = "message-container"></div>';
@@ -28,7 +28,7 @@
         }
     }
     function joinRoom() {
-        socket.emit('')
+        socket.emit('joinroom', document.getElementById('name').value);
     }
     socket.on('newmsg', function (data) {
         if (user) {
@@ -37,7 +37,21 @@
         }
     })
 
-    socket.on('')
+   
+
+    socket.on('connectToRoom', function (data) {
+        document.body.innerHTML = '<button type="button" onclick="leaveRoom()">Leave</button><br>\
+         welcome to nec group <br>\
+         <input type = "text" id = "message" >\
+         <button type = "button" name = "button" onclick = "sendMessage()">Send</button>\
+         <div id = "message-container"></div>';
+    })
+
+    socket.on('noSpace', function (data) {
+        document.body.innerHTML = 'Alert: No more space available in the room <br>\
+         <button type = "button" name = "button" onclick = "sendMessage()">Send</button>\
+         <div id = "message-container"></div>';
+    });
 </script>
 
 <body>

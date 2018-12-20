@@ -29,8 +29,33 @@ io.on('connection', function (socket) {
        
     })
 
-    socket.on('joinRoom', function (data) {
-        io.sockets.in("nec").emit('connectToRoom');
+    var roomUsers = [];
+    var roomName = "nec";
+
+    //socket.join("room-" + roomName);
+    //io.sockets.in("room-" + roomName).emit('connectToRoom', 'data');
+
+    function toJoin() {
+        console.log(socket.room);
+        socket.join("room-" + roomName);
+        io.sockets.in("room-" + roomName).emit('connectToRoom', 'data');
+    }
+
+    socket.on('joinroom', function (data) {
+        console.log("sample");
+        if (roomUsers.length < 5) {
+            if (roomUsers.indexOf(data) > -1) {
+                toJoin();
+            }
+            else {
+                roomUsers.push(data);
+                toJoin();
+            }
+        }
+        else {
+            socket.emit('noSpace', 'No space in the room');
+        }
+        
     })
 });
 
